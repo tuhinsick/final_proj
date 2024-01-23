@@ -38,11 +38,10 @@ export const routes = createBrowserRouter([
                 path:'/mycourses',
                 element:<MyCourses></MyCourses>
             },
-            // {
-            //     // path:'/addcourses',
-            //     // element:<PrivateRoute><AddCourses></AddCourses></PrivateRoute>
-            //     // element: <AddCourses></AddCourses>
-            // },
+            {
+                path:'/addcourses',
+                element: <AddCourses></AddCourses>
+            },
             {
                 path:'/courses',
                 element:<Courses></Courses>
