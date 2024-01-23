@@ -151,17 +151,84 @@ async function run(){
 
     
     
+  //   CREATE TABLE course_teacher (
+  //     course_id SERIAL REFERENCES courses(course_id),
+  //     user_id INT REFERENCES users(id),
+  //     PRIMARY KEY (course_id, user_id)
+  // );
     
-
+        //get courses that teacher
+        // app.post('/teacher-courses', async (req, res) => {
+        //   try {
+        //     const { course_id, user_id } = req.body;
+        
+        //     // Insert into course_student table
+        //     const enrollmentResult = await pool.query(
+        //       'INSERT INTO course_teacher (course_id, user_id) VALUES ($1, $2) RETURNING *',
+        //       [course_id, user_id]
+        //     );
+        
+        //     res.json(enrollmentResult.rows[0]);
+        //   } catch (error) {
+        //     console.error('Error enrolling student:', error.message);
+        //   }
+        // });
+    
+        //get courses that teacher teaches 
+        app.get('/teacher-courses/:teacherId', async (req, res) => {
+          const teacherId = req.params.teacherId;
+        
+          try {
+            const result = await pool.query(
+              'SELECT courses.* FROM courses ' +
+              'JOIN course_teacher ON courses.course_id = course_teacher.course_id ' +
+              'WHERE course_teacher.user_id = $1',
+              [teacherId]
+            );
+        
+            const courses = result.rows;
+        
+            res.json({ success: true, courses });
+          } catch (error) {
+            console.error('Error retrieving student courses:', error);
+            res.status(500).json({ success: false, message: 'Internal server error' });
+          }
+        });
+    
         //for a new course
-        //course_name,  course_description, course_price, total_lectures, duration, image_url
+        // API endpoint for adding a course
+        app.post('/teacher/add-course', async (req, res) => {
+          try {
+            const { teacher_id, course_name, course_description, course_price, image_url } = req.body;
+
+            // Step 1: Insert into courses table
+            const courseResult = await pool.query(
+              'INSERT INTO courses (course_name, course_description, course_price, image_url) VALUES ($1, $2, $3, $4) RETURNING course_id',
+              [course_name, course_description, course_price, image_url]
+            );
+
+            const courseId = courseResult.rows[0].course_id;
+
+            // Step 2: Insert into course_teacher table
+            await pool.query(
+              'INSERT INTO course_teacher (course_id, user_id) VALUES ($1, $2)',
+              [courseId, teacher_id]
+            );
+
+            res.json({ success: true, courseId });
+          } catch (error) {
+            console.error(error);
+            res.status(500).json({ success: false, error: 'Internal Server Error' });
+          }
+        });
+
         app.post("/courses/entry", async (req, res) => {
             try {
                 console.log(req.body);
-                const {name, price, description, photo} = req.body;
+                const {course_name, course_price, course_description, image_url} = req.body;
                 const newCourse = await pool.query(
-                "INSERT INTO COURSES (cr_name, cr_price, cr_description, cr_image) VALUES($1, $2, $3, $4) RETURNING *",
-                [name, price, description, photo]
+                "INSERT INTO COURSES (course_name, course_price, course_description, image_url) VALUES($1, $2, $3, $4) RETURNING *",
+                [course_name, course_price, course_description, image_url]
               );
           
               res.json(newCourse.rows[0]);
@@ -179,6 +246,7 @@ async function run(){
             }
         });
 
+        //get a particular course
         app.get("/courses/:course_id", async (req, res) => {
           // console.log(req.params);
           const courseId = req.params.course_id;
@@ -197,19 +265,7 @@ async function run(){
             // res.status(500).json({ message: 'Internal server error' });
           }
         });
-        // app.get('/courses', async (req, res) => {
-        //   try {
-        //     // const client = await pool.connect();
-        //     // const result = await client.query('SELECT * FROM courses');
-        //     const courses = result.rows;
-        //     client.release();
-        //     res.json(courses);
-        //   } catch (error) {
-        //     console.error('Error fetching courses', error);
-        //     res.status(500).send('Internal Server Error');
-        //   }
-        // });
-
+ 
         //update a course
         app.put("/courses/:id", async (req, res) => {
             console.log(req.body);
