@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
-const Register = () => {
+const TeacherRegister = () => {
     const [error, setError] = useState('');
     const [errorPass, setErrorPass] = useState('');
     const [errorFirebase, setErrorFirebase] = useState('');
@@ -10,14 +10,24 @@ const Register = () => {
     const handleSubmit = event=>{
         event.preventDefault(); 
         const form = event.target;
-        const name = form.name.value;
+        const username = form.name.value;
         const email = form.email.value;
         const password = form.password.value;
         console.log("helo")
-        console.log(name, email, password);
+        console.log(username, email, password);
 
+        fetch('http://localhost:5002/teacher-register', {
+            method: 'POST',
+            headers:{
+                'content-type': 'application/json'
+            },
+            body:JSON.stringify({ username, email, password})
+        })
+        .then(res => res.json())
+        .then(data => {
+            // console.log(data.user);
+        })
 
-        
     }
     //password setting 
     const handlePassword = (event) =>{
@@ -43,7 +53,7 @@ const Register = () => {
             <div className="hero-content grid grid-cols-2 gap-[100px] lg:flex-row-reverse">
                 <div className="text-center lg:text-left ">
                     <img className='w-[400px] shadow-2xl rounded-2xl' src="" alt="" />
-           
+                    <h2 className="text-2xl">Teacher login</h2>
                 </div>
                 <div onSubmit={handleSubmit} className="card flex-shrink-0 shadow-2xl bg-base-100 w-[550px]">
                 <form className="card-body w-[540px] justify-center">
@@ -96,5 +106,5 @@ const Register = () => {
     </div>
   )
 }
-
-export default Register
+ 
+export default TeacherRegister;

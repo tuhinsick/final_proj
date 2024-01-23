@@ -1,11 +1,6 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
-// import { PhotoView } from 'react-photo-view';
-// import { PhotoProvider,PhotoView } from 'react-photo-view';
+import { Link } from "react-router-dom";
 
-// import 'react-photo-view/dist/react-photo-view.css';
-/*{"course_id":1,"course_name":"Introduction to Computer Science","course_description":"Fundamentals of computer science and programming.","course_price":"49.99","total_lectures":20,"duration":"4 weeks","image_url":"intro_cs_image.jpg"}, */
-const Course = ({ course, handleDelete }) => {
+const MyCourse = ({course}) => {
     const {course_id, course_name,  course_description, course_price, total_lectures, duration, image_url} = course;
     // const {update, setUpdate} = useState(course);
 
@@ -24,7 +19,6 @@ const Course = ({ course, handleDelete }) => {
           <div className="flex card-action justify-between mt-5">
             <button className="text-black btn bg-blue-300">Price : {course_price}</button>
             {/* <UpdateCourse key={course_id} course = {course}/> */}
-            <button onClick={()=>handleDelete(course_id)} className="w-24 btn bg-blue-300 btn-primary">Delete</button>
             <Link to={`/courses/${course_id}`}><div class="relative inline-flex items-center justify-start py-3 pl-4 pr-12 overflow-hidden font-semibold text-indigo-600 transition-all duration-150 ease-in-out rounded hover:pl-10 hover:pr-6 bg-gray-50 group">
             <span class="absolute bottom-0 left-0 w-full h-1 transition-all duration-150 ease-in-out bg-indigo-600 group-hover:h-full"></span>
             <span class="absolute right-0 pr-4 duration-200 ease-out group-hover:translate-x-12">
@@ -41,6 +35,6 @@ const Course = ({ course, handleDelete }) => {
       </div>  
     )
     
-}   
-
-export default Course;
+}
+ 
+export default MyCourse;

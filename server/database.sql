@@ -11,13 +11,12 @@ CREATE TABLE users (
     country VARCHAR(50)
 );
 
-
-
 CREATE TABLE user_photo (
     user_id INT PRIMARY KEY REFERENCES users(id),
     photo_url VARCHAR(255) NOT NULL
 );
 --email, firstname, lastname, password, date_of_birth, mobile, city, country
+
 --Teacher Table
 CREATE TABLE teachers (
     teacher_id SERIAL PRIMARY KEY,
@@ -28,7 +27,7 @@ CREATE TABLE teachers (
     teacher_description TEXT
 );
 
--- Student Table
+-- -- Student Table
 CREATE TABLE students (
     student_id SERIAL PRIMARY KEY,
     user_id INT UNIQUE REFERENCES users(id),
@@ -49,17 +48,22 @@ CREATE TABLE courses (
 );
 
 -- Course_Student Table
+-- CREATE TABLE course_student (
+--     course_id SERIAL REFERENCES courses(course_id),
+--     student_id INT REFERENCES students(student_id),
+--     PRIMARY KEY (course_id, student_id)
+-- );
 CREATE TABLE course_student (
     course_id SERIAL REFERENCES courses(course_id),
-    student_id INT REFERENCES students(student_id),
-    PRIMARY KEY (course_id, student_id)
+    user_id INT REFERENCES users(id),
+    PRIMARY KEY (course_id, user_id)
 );
 
 -- Course_Teacher Table
 CREATE TABLE course_teacher (
     course_id SERIAL REFERENCES courses(course_id),
-    teacher_id INT REFERENCES teachers(teacher_id),
-    PRIMARY KEY (course_id, teacher_id)
+    user_id INT REFERENCES users(id),
+    PRIMARY KEY (course_id, user_id)
 );
 
 
@@ -131,7 +135,7 @@ CREATE TABLE questions (
     option2 VARCHAR(255),
     option3 VARCHAR(255),
     option4 VARCHAR(255),
-    correct_ans VARCHAR(255)
+    correct_ans VARCHAR(255)--make it variable
 );
 
 
@@ -153,3 +157,23 @@ VALUES ('Machine Learning Masterclass', 'Master machine learning techniques with
 
 INSERT INTO courses (course_name, course_description, course_price, total_lectures, duration, image_url)
 VALUES ('Cybersecurity Advanced Topics', 'Explore advanced topics in cybersecurity and ethical hacking.', 69.99, 18, '6 weeks', 'https://example.com/cybersecurity_advanced.jpg');
+
+
+--Teacher Table
+-- CREATE TABLE teachers (
+--     teacher_id SERIAL PRIMARY KEY,
+--     user_id INT UNIQUE REFERENCES users(id),
+--     years_of_experience INT,
+--     institution VARCHAR(100),
+--     mentored_students INT,
+--     teacher_description TEXT
+-- );
+
+-- -- Student Table
+-- CREATE TABLE students (
+--     student_id SERIAL PRIMARY KEY,
+--     user_id INT UNIQUE REFERENCES users(id),
+--     education VARCHAR(100),
+--     job_profile VARCHAR(100),
+--     profession VARCHAR(100)
+-- );

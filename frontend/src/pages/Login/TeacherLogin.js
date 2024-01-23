@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import { Link} from "react-router-dom";
-import { AuthContext } from "../context/AuthProvider";
+import { AuthContext } from "../../context/AuthProvider";
+import { Link } from "react-router-dom";
 
-const Login = () => {
+const TeacherLogin = () => {
     const {user, setUser} = useContext(AuthContext);
 
     const handleSubmit = event =>{
@@ -36,11 +36,11 @@ const Login = () => {
         <div className="hero min-h-screen bg-base-200">
             <div className="hero-content grid grid-cols-1 md:grid-cols-2 gap-[100px] lg:flex-row-reverse">
                 <div className="text-center lg:text-left ">
-                    <img className='w-[400px] shadow-2xl rounded-2xl' src="https://www.pngitem.com/pimgs/m/48-488412_transparent-game-piece-png-chess-pawn-png-png.png" alt="" />
+                    {/* <img className='w-[400px] shadow-2xl rounded-2xl' src="https://www.pngitem.com/pimgs/m/48-488412_transparent-game-piece-png-chess-pawn-png-png.png" alt="" /> */}
            
                 </div>
-                <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100 w-[450px]">
-                <form onSubmit={handleSubmit} className="card-body">
+                <div className="card flex-shrink-0 shadow-2xl bg-base-100 w-[550px]">
+                <form onSubmit={handleSubmit} className="card-body w-[540px]">
                     <h1 className="text-4xl font-bold">Login now!</h1>
                     <div className="form-control">
                     <label className="label">
@@ -68,4 +68,4 @@ const Login = () => {
      );
 }
  
-export default Login;
+export default TeacherLogin;

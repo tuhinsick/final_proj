@@ -24,6 +24,34 @@ async function run(){
             console.error(err.message);
           }
         });
+        //get a specific user
+        app.get("/users", async (req, res) => {
+          try {
+            const allUsers = await pool.query("SELECT * FROM users");
+            res.json(allUsers.rows);
+          } catch (err) {
+            console.error(err.message);
+          }
+        });
+
+        app.get("/users/:user_id", async (req, res) => {
+          // console.log(req.params);
+          const user_id = req.params.course_id;
+        
+          try {
+            const user = await pool.query("SELECT * FROM users WHERE id = $1", [user_id]);
+            // console.log(course);
+            if (course.rows.length === 1) {
+              res.json(user.rows[0]);
+            } else {
+              res.status(404).json({ message: 'Course not found' });
+            }
+        
+          } catch (err) {
+            console.error(err.message);
+            // res.status(500).json({ message: 'Internal server error' });
+          }
+        });
 
 
         app.post("/register", async (req, res) => {
@@ -43,6 +71,22 @@ async function run(){
           }
         });
 
+        app.post("/teacher-register", async (req, res) => {
+          try {
+            const { email, username, password } = req.body;
+        
+            // Assuming you want to insert the role as 'student'
+            const newStudent = await pool.query(
+              "INSERT INTO users (role, email, username, password) VALUES('teacher', $1, $2, $3) RETURNING *",
+              [email, username, password]
+            );
+        
+            res.json(newStudent.rows[0]);
+          } catch (err) {
+            console.error(err.message);
+          }
+        });
+
     // Login API endpoint
     app.post('/login', async (req, res) => {
       const { email, password } = req.body;
@@ -58,7 +102,6 @@ async function run(){
           const user = result.rows[0];
           res.json({ success: true, message: 'Authentication successful', user });
         } else {
-          // User not found or incorrect password
           res.status(401).json({ success: false, message: 'Invalid email or password' });
         }
       } catch (error) {
@@ -66,6 +109,8 @@ async function run(){
         res.status(500).json({ success: false, message: 'Internal server error' });
       }
     });
+
+
     //courses for a particular student
     app.get('/student-courses/:studentId', async (req, res) => {
       const studentId = req.params.studentId;
@@ -74,7 +119,7 @@ async function run(){
         const result = await pool.query(
           'SELECT courses.* FROM courses ' +
           'JOIN course_student ON courses.course_id = course_student.course_id ' +
-          'WHERE course_student.student_id = $1',
+          'WHERE course_student.user_id = $1',
           [studentId]
         );
     
@@ -86,6 +131,25 @@ async function run(){
         res.status(500).json({ success: false, message: 'Internal server error' });
       }
     });
+
+    //student enroll course
+    app.post('/enroll', async (req, res) => {
+      try {
+        const { course_id, user_id } = req.body;
+    
+        // Insert into course_student table
+        const enrollmentResult = await pool.query(
+          'INSERT INTO course_student (course_id, user_id) VALUES ($1, $2) RETURNING *',
+          [course_id, user_id]
+        );
+    
+        res.json(enrollmentResult.rows[0]);
+      } catch (error) {
+        console.error('Error enrolling student:', error.message);
+      }
+    });
+
+    
     
     
 

@@ -1,9 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Blog from './Blog';
 
-// import blogsContext from "../context/blogsContextProvider";
-// import blogsContext from '../context/oursesContext';
-
 const Blogs = () =>{ 
     const [blogs, setblogs] = useState([]);
     // const {blogs, setblogs} = useContext(blogsContext);
