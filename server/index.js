@@ -15,22 +15,82 @@ app.use(express.json());
  
 async function run(){
     try{
-        //register a student to the database 
-        // email, firstname, lastname, password, date_of_birth, mobile, city, country
-        app.post("/register", async (req, res) => {
-            try {
-              const {st_name, st_age, st_address } = req.body;
-              const newStudent = await pool.query(
-                "INSERT INTO STUDENTS (st_name, st_age, st_address) VALUES($1, $2, $3) RETURNING *",
-                [st_name, st_age, st_address]
-              );
-              res.json(newStudent.rows[0]);
-            } catch (err) {
-              console.error(err.message);
-            }
+        //get all users
+        app.get("/users", async (req, res) => {
+          try {
+            const allUsers = await pool.query("SELECT * FROM users");
+            res.json(allUsers.rows);
+          } catch (err) {
+            console.error(err.message);
+          }
         });
 
+
+        app.post("/register", async (req, res) => {
+          try {
+            const { email, username, password } = req.body;
+        
+            // Assuming you want to insert the role as 'student'
+            const newStudent = await pool.query(
+              "INSERT INTO users (role, email, username, password) VALUES('student', $1, $2, $3) RETURNING *",
+              [email, username, password]
+            );
+        
+            res.json(newStudent.rows[0]);
+          } catch (err) {
+            console.error(err.message);
+            // res.status(500).send("Internal Server Error");
+          }
+        });
+
+    // Login API endpoint
+    app.post('/login', async (req, res) => {
+      const { email, password } = req.body;
+      try {
+        // Check if the user with the provided email and password exists
+        const result = await pool.query(
+          'SELECT * FROM users WHERE email = $1 AND password = $2',
+          [email, password]
+        );
+
+        if (result.rows.length === 1) {
+          // User found, authentication successful
+          const user = result.rows[0];
+          res.json({ success: true, message: 'Authentication successful', user });
+        } else {
+          // User not found or incorrect password
+          res.status(401).json({ success: false, message: 'Invalid email or password' });
+        }
+      } catch (error) {
+        console.error('Error during login:', error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+      }
+    });
+    //courses for a particular student
+    app.get('/student-courses/:studentId', async (req, res) => {
+      const studentId = req.params.studentId;
+    
+      try {
+        const result = await pool.query(
+          'SELECT courses.* FROM courses ' +
+          'JOIN course_student ON courses.course_id = course_student.course_id ' +
+          'WHERE course_student.student_id = $1',
+          [studentId]
+        );
+    
+        const courses = result.rows;
+    
+        res.json({ success: true, courses });
+      } catch (error) {
+        console.error('Error retrieving student courses:', error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+      }
+    });
+    
+    
+
         //for a new course
+        //course_name,  course_description, course_price, total_lectures, duration, image_url
         app.post("/courses/entry", async (req, res) => {
             try {
                 console.log(req.body);

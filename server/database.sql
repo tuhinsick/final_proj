@@ -3,7 +3,7 @@ CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     role VARCHAR(50) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
-    name VARCHAR(50) NOT NULL,
+    username VARCHAR(50) NOT NULL,
     password VARCHAR(255) NOT NULL,
     date_of_birth DATE,
     mobile VARCHAR(15),
@@ -11,12 +11,14 @@ CREATE TABLE users (
     country VARCHAR(50)
 );
 
+
+
 CREATE TABLE user_photo (
     user_id INT PRIMARY KEY REFERENCES users(id),
     photo_url VARCHAR(255) NOT NULL
 );
 --email, firstname, lastname, password, date_of_birth, mobile, city, country
--- Teacher Table
+--Teacher Table
 CREATE TABLE teachers (
     teacher_id SERIAL PRIMARY KEY,
     user_id INT UNIQUE REFERENCES users(id),

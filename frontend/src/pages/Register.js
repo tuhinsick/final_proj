@@ -13,8 +13,11 @@ const Register = () => {
         const name = form.name.value;
         const email = form.email.value;
         const password = form.password.value;
-       
-       
+        console.log("helo")
+        console.log(name, email, password);
+
+
+        
     }
     //password setting 
     const handlePassword = (event) =>{
@@ -39,15 +42,15 @@ const Register = () => {
          <div className="hero min-h-screen bg-base-200">
             <div className="hero-content grid grid-cols-2 gap-[100px] lg:flex-row-reverse">
                 <div className="text-center lg:text-left ">
-                    <img className='w-[400px] shadow-2xl rounded-2xl' src="https://www.pngitem.com/pimgs/m/48-488412_transparent-game-piece-png-chess-pawn-png-png.png" alt="" />
+                    <img className='w-[400px] shadow-2xl rounded-2xl' src="" alt="" />
            
                 </div>
-                <div onSubmit={handleSubmit} className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100 w-[450px]">
-                <form className="card-body">
+                <div onSubmit={handleSubmit} className="card flex-shrink-0 shadow-2xl bg-base-100 w-[550px]">
+                <form className="card-body w-[540px] justify-center">
                     <h1 className="text-4xl font-bold">Create an account</h1>
                     <div className="form-control">
                     <label className="label">
-                        <span className="label-text">Name</span>
+                        <span className="label-text">Username</span>
                     </label>
                     <input type="text" name='name' placeholder="name" className="input input-bordered" />
                     </div>
@@ -58,18 +61,9 @@ const Register = () => {
                     {/* email, firstname, lastname, password, date_of_birth, mobile, city, country */}
                     <input type="email" name='email' placeholder="abcd@gmail.com" className="input input-bordered" />
                     </div>
-                    <div className="form-control">
-                    <label className="label">
-                        <span className="label-text">Mobile</span>
-                    </label>
-                    <input type="text" name='mobile' placeholder="810xxxxxxxxxx" className="input input-bordered" />
-                    </div>
-                    <div className="form-control">
-                    <label className="label">
-                        <span className="label-text">Country Name</span>
-                    </label>
-                    <input type="text" name='country' placeholder="country name" className="input input-bordered" />
-                    </div>
+                  {/* 
+                            password  
+                  */}
                     <div className="form-control">
                     <label className="label">
                         <span className="label-text">Password</span>
@@ -80,6 +74,16 @@ const Register = () => {
                         <p className='label-text-alt'>Already have an account?</p><Link to='/login' className="label-text-alt link link-hover">Login</Link>
                     </label>
                     </div>
+                    {/* <div className="form-control">
+                    <label className="label">
+                        <span className="label-text">Confirm Password</span>
+                    </label>
+                    <input onChange={handlePassword} type="password" name='password' placeholder="confirm password" className="input input-bordered" />
+                    </div> */}
+                    {/* <label className="label">
+                        <p className='label-text-alt'>Already have an account?</p><Link to='/login' className="label-text-alt link link-hover">Login</Link>
+                    </label> */}
+                   
                     <p className='text-rose-600 font'>{error}</p>
                     <div className="form-control mt-6">
                     <button type='submit' className="btn btn-primary">REGISTER</button>

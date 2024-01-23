@@ -5,9 +5,10 @@ import Register from "../../pages/Register";
 import ErrorPage from "../../pages/ErrorPage";
 import Login from "../../pages/Login";
 import Home from "../../pages/Home/Home";
-import Courses from "../../pages/Courses";
+import Courses from "../../pages/Courses/Courses";
 import Blogs from "../../pages/Blogs/Blogs";
-import SingleCourse from "../../pages/SingleCourse";
+import SingleCourse from "../../pages/Courses/SingleCourse";
+import About from "../../pages/About/About";
 
 
 export const routes = createBrowserRouter([
@@ -23,9 +24,13 @@ export const routes = createBrowserRouter([
                 path: '/blogs',
                 element:<Blogs></Blogs>
             },
+            {
+                path: '/about',
+                element:<About></About>
+            },
             // {
-            //     path:'/reviews',
-            //     element:<PrivateRoute><Reviews></Reviews></PrivateRoute>
+            //     path:'/mycourses',
+            //     element:<PrivateRoute><MyCourses></MyCourses></PrivateRoute>
             // },
             // {
             //     path:'/addcourses',
