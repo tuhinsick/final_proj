@@ -24,16 +24,7 @@ async function run(){
             console.error(err.message);
           }
         });
-        //get a specific user
-        app.get("/users", async (req, res) => {
-          try {
-            const allUsers = await pool.query("SELECT * FROM users");
-            res.json(allUsers.rows);
-          } catch (err) {
-            console.error(err.message);
-          }
-        });
-
+         //get a specific user
         app.get("/users/:user_id", async (req, res) => {
           // console.log(req.params);
           const user_id = req.params.course_id;
@@ -76,16 +67,18 @@ async function run(){
             const { email, username, password } = req.body;
         
             // Assuming you want to insert the role as 'student'
-            const newStudent = await pool.query(
+            const newTeacher= await pool.query(
               "INSERT INTO users (role, email, username, password) VALUES('teacher', $1, $2, $3) RETURNING *",
               [email, username, password]
             );
         
-            res.json(newStudent.rows[0]);
+            res.json(newTeacher.rows[0]);
           } catch (err) {
             console.error(err.message);
           }
         });
+
+        
 
     // Login API endpoint
     app.post('/login', async (req, res) => {
@@ -132,7 +125,9 @@ async function run(){
       }
     });
 
-    //student enroll course
+    /*************************
+    *  student enroll course
+    *************************/
     app.post('/enroll', async (req, res) => {
       try {
         const { course_id, user_id } = req.body;
@@ -194,8 +189,36 @@ async function run(){
             res.status(500).json({ success: false, message: 'Internal server error' });
           }
         });
+
+        // Endpoint to get teachers for a specific course
+        app.get('/courses/teachers/:course_id', async (req, res) => {
+          const { course_id } = req.params;
+
+          try {
+            // Query to retrieve teachers for the given course_id
+            const query = `
+              SELECT users.*
+              FROM users
+              JOIN course_teacher ON users.id = course_teacher.user_id
+              WHERE course_teacher.course_id = $1;
+            `;
+
+            const result = await pool.query(query, [course_id]);
+            const teachers = result.rows;
+
+            res.json({ teachers });
+          } catch (error) {
+            console.error('Error retrieving teachers:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+          }
+        });
+
+
+        
     
-        //for a new course
+        /*************************
+         *    for a new course
+         *************************/
         // API endpoint for adding a course
         app.post('/teacher/add-course', async (req, res) => {
           try {
@@ -222,21 +245,7 @@ async function run(){
           }
         });
 
-        app.post("/courses/entry", async (req, res) => {
-            try {
-                console.log(req.body);
-                const {course_name, course_price, course_description, image_url} = req.body;
-                const newCourse = await pool.query(
-                "INSERT INTO COURSES (course_name, course_price, course_description, image_url) VALUES($1, $2, $3, $4) RETURNING *",
-                [course_name, course_price, course_description, image_url]
-              );
-          
-              res.json(newCourse.rows[0]);
-            } catch (err) {
-              console.error(err.message);
-            }
-        });
-         //get all the courses 
+        //get all the courses 
         app.get("/courses", async (req, res) => {
             try {
               const allCourses = await pool.query("SELECT * FROM courses");

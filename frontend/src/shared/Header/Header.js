@@ -5,6 +5,11 @@ import { AuthContext } from '../../context/AuthProvider';
 const Header = () => {
     const {user, setUser} = useContext(AuthContext);
     console.log(user?user:"null");
+
+    //logout user
+    const handleLogout = () => {
+        setUser(null);
+    }
     // useEffect(() => {
     //     // Load user data from localStorage on component mount
     //     const storedUser = localStorage.getItem('user');
@@ -36,14 +41,14 @@ const Header = () => {
             </label>
             </div>
             <ul tabIndex={0} className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52 z-10">
-                <li><Link to={`/profile/${user?.id}`}>Profile</Link></li>
+                <li><Link to={`/profile/${user?.id}`}>Settings</Link></li>
                 <li>
                 <Link to='/mycourses' className="justify-between">
-                    My Courses
+                    Dashboard
                     <span className="badge">New</span>
                 </Link>
                 </li>
-                <li><Link to='login'>Logout</Link></li>
+                <li><Link onClick={handleLogout} to='login'>Logout</Link></li>
             </ul>
             </div>
         </>
