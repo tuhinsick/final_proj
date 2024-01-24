@@ -44,33 +44,55 @@ async function run(){
           }
         });
 
-
-        app.post("/register", async (req, res) => {
+        // API endpoint for user registration (including student registration)
+        app.post('/register', async (req, res) => {
           try {
             const { email, username, password } = req.body;
-        
-            // Assuming you want to insert the role as 'student'
-            const newStudent = await pool.query(
-              "INSERT INTO users (role, email, username, password) VALUES('student', $1, $2, $3) RETURNING *",
-              [email, username, password]
+
+            // Step 1: Insert into the users table
+            const userResult = await pool.query(
+              'INSERT INTO users (role, email, username, password) VALUES ($1, $2, $3, $4) RETURNING *',
+              ['student', email, username, password]
             );
-        
-            res.json(newStudent.rows[0]);
-          } catch (err) {
-            console.error(err.message);
-            // res.status(500).send("Internal Server Error");
+            const userId = userResult.rows[0].id;
+            const role = userResult.rows[0].role;
+            // console.log(userId);
+
+            // Step 2: If the user is a student, insert into the students table
+            await pool.query(
+              'INSERT INTO students (user_id) VALUES ($1)',
+              [userId]
+            );
+
+            res.json({ success: true, userId });
+            res.status(201).json({ message: 'User registered successfully' });
+          } catch (error) {
+            console.error('Error registering user', error);
+            res.status(500).send('Internal Server Error');
           }
         });
 
-        app.post("/teacher-register", async (req, res) => {
+        app.post("/teacher/register", async (req, res) => {
           try {
-            const { email, username, password } = req.body;
-        
             // Assuming you want to insert the role as 'student'
+            const { email, username, password } = req.body;
+
+            // Step 1: Insert into the users table
             const newTeacher= await pool.query(
               "INSERT INTO users (role, email, username, password) VALUES('teacher', $1, $2, $3) RETURNING *",
               [email, username, password]
             );
+            const userId = newTeacher.rows[0].id;
+            console.log(userId);
+
+            // Step 2: If the user is a student, insert into the students table
+            await pool.query(
+              'INSERT INTO teachers (user_id) VALUES ($1)',
+              [userId]
+            );
+
+            res.json({ success: true, userId });
+            res.status(201).json({ message: 'User registered successfully' });
         
             res.json(newTeacher.rows[0]);
           } catch (err) {
@@ -85,18 +107,44 @@ async function run(){
       const { email, password } = req.body;
       try {
         // Check if the user with the provided email and password exists
-        const result = await pool.query(
-          'SELECT * FROM users WHERE email = $1 AND password = $2',
+        const user = await pool.query(
+          'SELECT * FROM users WHERE users.email = $1 AND users.password = $2',
           [email, password]
         );
 
-        if (result.rows.length === 1) {
-          // User found, authentication successful
-          const user = result.rows[0];
-          res.json({ success: true, message: 'Authentication successful', user });
-        } else {
-          res.status(401).json({ success: false, message: 'Invalid email or password' });
+        //get the user role
+        const role = user.rows[0].role;
+        console.log(role);
+
+
+        if(role === 'student') {
+            const result = await pool.query(
+              'SELECT u.*, s.* FROM users u LEFT JOIN students s ON u.id = s.user_id'
+            );
+            if (result.rows.length === 1) {
+              // User found, authentication successful
+              const user = result.rows[0];
+              res.json({ success: true, message: 'Authentication successful', user });
+            } else {
+              res.status(401).json({ success: false, message: 'Invalid email or password' });
+            }
+        }else {
+            const result = await pool.query(
+              'SELECT u.*, t.* FROM users u LEFT JOIN teachers t ON u.id = t.user_id'
+            );
+            console.log(result.rows[0])
+            console.log(result.rows.length)
+            if (result.rows[0]) {
+              // User found, authentication successful
+              const user = result.rows[0];
+              res.json({ success: true, message: 'Authentication successful', user });
+            } else {
+              res.status(401).json({ success: false, message: 'Invalid email or password' });
+            }
         }
+
+        
+        
       } catch (error) {
         console.error('Error during login:', error);
         res.status(500).json({ success: false, message: 'Internal server error' });

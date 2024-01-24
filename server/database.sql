@@ -9,13 +9,9 @@ CREATE TABLE users (
     mobile VARCHAR(15),
     city VARCHAR(50),
     country VARCHAR(50)
-    user_photo VARCHAR(1000)
+    user_photo VARCHAR(2000)
 );
 
--- CREATE TABLE user_photo (
---     user_id INT PRIMARY KEY REFERENCES users(id),
---     photo_url VARCHAR(255) NOT NULL
--- );
 --email, firstname, lastname, password, date_of_birth, mobile, city, country
 
 --Teacher Table
@@ -23,7 +19,7 @@ CREATE TABLE teachers (
     teacher_id SERIAL PRIMARY KEY,
     user_id INT UNIQUE REFERENCES users(id),
     years_of_experience INT,
-    institution VARCHAR(100),
+    institution VARCHAR(255),
     mentored_students INT,
     teacher_description TEXT
 );

@@ -16,7 +16,7 @@ const TeacherRegister = () => {
         console.log("helo")
         console.log(username, email, password);
 
-        fetch('http://localhost:5002/teacher-register', {
+        fetch('http://localhost:5002/teacher/register', {
             method: 'POST',
             headers:{
                 'content-type': 'application/json'
