@@ -5,19 +5,18 @@ import { Link } from 'react-router-dom';
 /*{"course_id":1,"course_name":"Introduction to Computer Science","course_description":"Fundamentals of computer science and programming.","course_price":"49.99","total_lectures":20,"duration":"4 weeks","image_url":"intro_cs_image.jpg"}, */
 const Course = ({ course, handleDelete }) => {
     const {course_id, course_name,  course_description, course_price, total_lectures, duration, image_url} = course;
-    // const {update, setUpdate} = useState(course);
-
-    const [teachers, setTeachers] = useState([]);
+    
+    // const [teachers, setTeachers] = useState([]);
 
     //loading the related teachers with this course
-    useEffect(()=>{
-        fetch(`http://localhost:5002/courses/teachers/${course_id}`)
-        .then(res => res.json())
-        .then(data =>setTeachers(data.teachers))
-    },[]);
+    // useEffect(()=>{
+    //     fetch(`http://localhost:5002/courses/teachers/${course_id}`)
+    //     .then(res => res.json())
+    //     .then(data =>setTeachers(data.teachers))
+    // },[]);
 
 
-    console.log(teachers[0]?.username)
+    // console.log(teachers[0]?.username)
     //truncate text
     const truncateText = (text, maxLength) => {
       if (text.length <= maxLength) {
@@ -31,7 +30,7 @@ const Course = ({ course, handleDelete }) => {
    
     return (
         // <div className='bg-slate-300 p-3 m-7 rounded-2xl'>
-    <div className="card rounded-lg flex flex-col card-side shadow-2xl bg-blue-100 hover:bg-blue-200">
+    <div className="card rounded-lg flex flex-col card-side shadow-2xl bg-green-200 hover:bg-blue-200">
           <figure className='rounded-none'>
             <img className="h-[300px] rounded-t-lg z-100" src={image_url}  alt="courses" />
           </figure>
