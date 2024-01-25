@@ -130,12 +130,12 @@ const Courses = () =>{
         }
         </div>
         {/* Add pagination controls */}
-        <div className='flex justify-center items-center bg-green-300 w-[28%] p-3 m-auto rounded-lg mt-20'>
-            <button className='btn btn-accent mr-10' disabled={page === 1} onClick={() => setPage(page - 1)}>
+        <div className='flex justify-center items-center bg-neutral-950 w-[38%] p-3 m-auto rounded-lg mt-20'>
+            <button className='btn btn-accent mr-10 w-[150px]' disabled={page === 1} onClick={() => setPage(page - 1)}>
                 Previous Page
             </button>
-            <span className='text-xl'>Page {page} of {totalPages}</span>
-            <button className='btn btn-accent ml-10' disabled={page === totalPages} onClick={() => setPage(page + 1)}>
+            <span className='text-md text-white decoration-dashed'>Page {page} of {totalPages}</span>
+            <button className='btn btn-accent ml-10 w-[150px]' disabled={page === totalPages} onClick={() => setPage(page + 1)}>
                 Next Page
             </button>
         </div>
