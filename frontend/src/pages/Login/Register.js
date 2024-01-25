@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
+import useTitle from '../../hooks/useTitle';
 
 const Register = () => {
+    useTitle('Register');
     const [error, setError] = useState('');
     const [errorPass, setErrorPass] = useState('');
     const [errorFirebase, setErrorFirebase] = useState('');

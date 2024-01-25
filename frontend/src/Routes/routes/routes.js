@@ -15,6 +15,8 @@ import Profile from "../../pages/Profile/Profile";
 import LoginLayout from "../../layout/LoginLayout";
 import TeacherLogin from "../../pages/Login/TeacherLogin";
 import TeacherRegister from "../../pages/Login/TeacherRegister";
+import CorusePage from "../../pages/Courses/CoursePage";
+import BlogsPage from "../../pages/Blogs/BlogsPage.";
 
 
 export const routes = createBrowserRouter([
@@ -28,7 +30,7 @@ export const routes = createBrowserRouter([
             },
             {
                 path: '/blogs',
-                element:<Blogs></Blogs>
+                element:<BlogsPage></BlogsPage>
             },
             {
                 path: '/about',
@@ -44,7 +46,7 @@ export const routes = createBrowserRouter([
             },
             {
                 path:'/courses',
-                element:<Courses></Courses>
+                element:<CorusePage></CorusePage>
             },
             {
                 path:'courses/:id',

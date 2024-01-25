@@ -12,15 +12,15 @@ const AuthProvider = ({children}) => {
 
    
 
-    const login = (email, password) =>{
-        return ;
-    }
+    // const login = (email, password) =>{
+    //     return ;
+    // }
 
 
     const authInfo = {
         user,
         setUser, 
-        login
+        // login
     }
 
     return (

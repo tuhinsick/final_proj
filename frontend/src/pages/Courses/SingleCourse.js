@@ -3,6 +3,7 @@ import { AuthContext } from "../../context/AuthProvider";
 import { useContext, useEffect, useState } from "react";
 import CourseInstructors from "./Course_Instructors";
 import PrivateRoute from "../../Routes/PrivateRoute/PrivateRoute";
+import CourseFAQ from "./CourseFAQ";
 
 const SingleCourse = () => {
     const course = useLoaderData();
@@ -73,7 +74,10 @@ const SingleCourse = () => {
                 )
             }
         </div>
-        
+
+        {/* FAQ section  */}
+        <h1 className="text-4xl mb-6">FAQ's</h1>
+        <CourseFAQ></CourseFAQ>
         </div>
         </>
      );

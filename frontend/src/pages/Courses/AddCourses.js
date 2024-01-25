@@ -6,7 +6,6 @@ const AddCourses = () => {
     const user_id = user?.id;
     const handleSubmit = async (e) => {
         e.preventDefault();
-        e.preventDefault();
         //calling the form with event.target
         const form = e.target;
         //firstname and lastname add kore fullname banano 
