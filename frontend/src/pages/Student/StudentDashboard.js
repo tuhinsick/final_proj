@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthProvider";
 import MyCourse from "./MyCourse";
 
-const MyCourses = () => {
+const StudentDashboard = () => {
     const [courses, setCourses] = useState([]);
     const {user, setUser} = useContext(AuthContext);
     // const {courses, setCourses} = useContext(CoursesContext);
@@ -48,4 +48,4 @@ const MyCourses = () => {
       )
 }
  
-export default MyCourses;
+export default StudentDashboard;

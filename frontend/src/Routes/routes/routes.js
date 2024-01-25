@@ -9,14 +9,14 @@ import Courses from "../../pages/Courses/Courses";
 import Blogs from "../../pages/Blogs/Blogs";
 import SingleCourse from "../../pages/Courses/SingleCourse";
 import About from "../../pages/About/About";
-import MyCourses from "../../pages/Profile/MyCourses";
 import AddCourses from "../../pages/Courses/AddCourses";
-import Profile from "../../pages/Profile/Profile";
+import Profile from "../../pages/Student/Profile";
 import LoginLayout from "../../layout/LoginLayout";
 import TeacherLogin from "../../pages/Login/TeacherLogin";
 import TeacherRegister from "../../pages/Login/TeacherRegister";
 import CorusePage from "../../pages/Courses/CoursePage";
 import BlogsPage from "../../pages/Blogs/BlogsPage.";
+import StudentDashboard from "../../pages/Student/StudentDashboard";
 
 
 export const routes = createBrowserRouter([
@@ -38,7 +38,7 @@ export const routes = createBrowserRouter([
             },
             {
                 path:'/mycourses',
-                element:<MyCourses></MyCourses>
+                element:<StudentDashboard></StudentDashboard>
             },
             {
                 path:'/addcourses',
