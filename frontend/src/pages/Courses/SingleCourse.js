@@ -2,6 +2,7 @@ import { useLoaderData } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
 import { useContext, useEffect, useState } from "react";
 import CourseInstructors from "./Course_Instructors";
+import PrivateRoute from "../../Routes/PrivateRoute/PrivateRoute";
 
 const SingleCourse = () => {
     const course = useLoaderData();
@@ -56,7 +57,7 @@ const SingleCourse = () => {
 
                 <p className='my-4'>{course_description}</p>
                 <div>
-                    <button onClick={handleCourseEnroll} className="btn text-2xl btn-success w-[500px] absolute bottom-0 left-0">Enroll</button>
+                    <PrivateRoute><button onClick={handleCourseEnroll} className="btn text-2xl btn-success w-[500px] absolute bottom-0 left-0">Enroll</button></PrivateRoute>
                 </div>
             </div>
             <div>

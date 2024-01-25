@@ -39,65 +39,14 @@ const AddCourses = () => {
           } else {
             console.error('Failed to add course.');
           }
+          //reset the form
+          form.reset();
         } catch (error) {
           console.error('Error:', error);
+          
         }
       };
     
-    // const handleSubmit = async event =>{
-        // event.preventDefault();
-        // //calling the form with event.target
-        // const form = event.target;
-        // //firstname and lastname add kore fullname banano 
-        // const course_name = form.name.value;
-        // //going inside the form and then calling the name of the input and then .value to get the value
-        // // const title = form.title.value;
-        // const image_url = form.photoURL.value;
-        // const course_description = form.description.value;
-        // const course_price = form.price.value;
-        
-    //     //this is very important, but often overlooked. Here we are creating an object named order than passing it using the post api method. This is how we generally create object to store future value.
-    //     // const course = {
-    //     //     name: name,
-    //     //     price: price,           
-    //     //     description: description,
-    //     //     photo: photoURL,
-    //     // }
-
-        
-
-    //     try {
-    //         const response = await fetch('http://localhost:5002/courses/entry', {
-    //             method: 'POST',
-    //             headers: {
-    //                 'content-type': 'application/json',
-    //             },
-    //             body: JSON.stringify({})
-                
-    //         }) 
-    //         window.location = '/';
-    //         console.log(response.body);
-    //     }
-    //     try{
-    //       const response = await fetch('http://localhost:5002/courses/entry', {
-    //             method: 'POST',
-    //             headers: {
-    //                 'content-type': 'application/json',
-    //             },
-    //             body: JSON.stringify({course_name, course_price,course_description,image_url})
-               
-    //       }) 
-    //       window.location = '/';
-    //       console.log(response.body);
-    //     }catch{
-    
-    //     }
-    
-    //     //reseting the form after it has been submitted
-    //         form.reset();
-    //         console.log('hit add');
-    //         // console.log(course.name, course.price, course.description, course.photo);
-    // }
       return (
         <div className='max-w-screen-xl mx-auto bg-white'>
                 <form onSubmit={handleSubmit}  className='border-3 shadow-2xl w-[1200px] mt-24  mb-32 p-8 bg-white'>

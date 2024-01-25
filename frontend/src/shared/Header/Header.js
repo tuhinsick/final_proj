@@ -8,6 +8,7 @@ const Header = () => {
 
     //logout user
     const handleLogout = () => {
+        localStorage.removeItem('user');
         setUser(null);
     }
     // useEffect(() => {
