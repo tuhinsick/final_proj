@@ -207,54 +207,126 @@ async function run(){
     // });
 
     // Login API endpoint
+    // app.post('/login', async (req, res) => {
+    //   const { email, password } = req.body;
+    //   try {
+    //     // Check if the user with the provided email and password exists
+    //     const result = await pool.query(
+    //       'SELECT * FROM users WHERE email = $1 AND password = $2',
+    //       [email, password]
+    //     );
 
+    //     if (result.rows.length === 1) {
+    //       // User found, authentication successful
+    //       const user = result.rows[0];
+    //       res.json({ success: true, message: 'Authentication successful', user });
+    //     } else {
+    //       // User not found or incorrect password
+    //       res.status(401).json({ success: false, message: 'Invalid email or password' });
+    //     }
+    //   } catch (error) {
+    //     console.error('Error during login:', error);
+    //     res.status(500).json({ success: false, message: 'Internal server error' });
+    //   }
+    // });
+    
         // Login API endpoint
-        app.post('/login', async (req, res) => {
-          const { email, password } = req.body;
-          try {
-            // Check if the user with the provided email and password exists
-            const user = await pool.query(
-              'SELECT * FROM users WHERE users.email = $1 AND users.password = $2',
-              [email, password]
-            );
+        // app.post('/login', async (req, res) => {
+        //   const { email, password } = req.body;
+        //   try {
+        //     // Check if the user with the provided email and password exists
+        //     const user = await pool.query(
+        //       'SELECT * FROM users WHERE users.email = $1 AND users.password = $2}',
+        //       [email, password]
+        //     );
     
-            //get the user role
-            const role = user?.rows[0]?.role;
-            console.log(role);
+        //     //get the user role
+        //     const role = user?.rows[0]?.role;
+        //     const userId = user?.rows[0].id;
+        //     console.log(role);
     
-    
-            if(role === 'student') {
-                const result = await pool.query(
-                  'SELECT u.*, s.* FROM users u LEFT JOIN students s ON u.id = s.user_id'
-                );
-                if (result.rows.length === 1) {
-                  // User found, authentication successful
-                  const user = result.rows[0];
-                  res.json({ success: true, message: 'Authentication successful', user });
-                } else {
-                  res.status(401).json({ success: false, message: 'Invalid email or password' });
-                }
-            }else {
-                const result = await pool.query(
-                  'SELECT u.*, t.* FROM users u LEFT JOIN teachers t ON u.id = t.user_id'
-                );
-                console.log(result.rows[0])
-                console.log(result.rows.length)
-                if (result.rows[0]) {
-                  // User found, authentication successful
-                  const user = result.rows[0];
-                  res.json({ success: true, message: 'Authentication successful', user });
-                } else {
-                  res.status(401).json({ success: false, message: 'Invalid email or password' });
-                }
-            }
+        //     if(role === 'student') {
+        //         const result = await pool.query(
+        //           'SELECT u.*, s.* FROM users u LEFT JOIN students s ON $1 = s.user_id', [userId]
+        //         );
+        //         if (result.rows.length === 1) {
+        //           // User found, authentication successful
+        //           const user = result.rows[0];
+        //           res.json({ success: true, message: 'Authentication successful', user });
+        //         } else {
+        //           res.status(401).json({ success: false, message: 'Invalid email or password' });
+        //         }
+        //     }else {
+        //         const result = await pool.query(
+        //           'SELECT u.*, t.* FROM users u LEFT JOIN teachers t ON $1 = t.user_id', [userId]
+        //         );
+        //         console.log(result.rows[0])
+        //         console.log(result.rows.length)
+        //         if (result.rows[0]) {
+        //           // User found, authentication successful
+        //           const user = result.rows[0];
+        //           res.json({ success: true, message: 'Authentication successful', user });
+        //         } else {
+        //           res.status(401).json({ success: false, message: 'Invalid email or password' });
+        //         }
+        //     }
           
-          } catch (error) {
-            console.error('Error during login:', error);
-            res.status(500).json({ success: false, message: 'Internal server error' });
-          }
-        });
+        //   } catch (error) {
+        //     console.error('Error during login:', error);
+        //     res.status(500).json({ success: false, message: 'Internal server error' });
+        //   }
+        // });
 // Login API endpoint
+app.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    // Check if the user with the provided email and password exists
+    const user = await pool.query(
+      'SELECT * FROM users WHERE users.email = $1 AND users.password = $2',
+      [email, password]
+    );
+
+    //get the user role
+    const role = user?.rows[0]?.role;
+    console.log(role);
+    const userId = user?.rows[0]?.id;
+    console.log(userId);
+
+
+    if(role === 'student') {
+        const result = await pool.query(
+          'SELECT u.*, s.* FROM users u JOIN students s ON $1 = s.user_id WHERE u.id = $1',[userId]
+        );
+        if (result.rows.length === 1) {
+          // User found, authentication successful
+          const studentUser = result.rows[0];
+          console.log(studentUser)
+          res.json({ success: true, message: 'Authentication successful', user:studentUser });
+        } else {
+          res.status(401).json({ success: false, message: 'Invalid email or password' });
+        }
+    }else {
+        const result = await pool.query(//$1 = s.user_id WHERE u.id = $1',[userId]
+          'SELECT u.*, t.* FROM users u JOIN teachers t ON $1 = t.user_id WHERE u.id = $1',[userId]
+        );
+        console.log(result.rows[0])
+        console.log(result.rows.length)
+        if (result.rows[0].length === 1) {
+          // User found, authentication successful
+          const teacherUser = result.rows[0];
+          res.json({ success: true, message: 'Authentication successful', user:teacherUser });
+        } else {
+          res.status(401).json({ success: false, message: 'Invalid email or password' });
+        }
+    }
+  
+  } catch (error) {
+    console.error('Error during login:', error);
+    res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+});
+// Login API endpoint
+
 
 
 

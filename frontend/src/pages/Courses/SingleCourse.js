@@ -56,15 +56,15 @@ const SingleCourse = () => {
     }
 
     return ( 
-        <div className="bg-slate-200 pb-8">
+        <div className="bg-blue-100 pb-8">
         <div className="w-[88%] m-auto">
         <div className='grid grid-cols-2 items-center gap-12 relative pb-32 pt-16 mb-20'>
-            <div>
+            <div className="flex flex-col items-strech justify-start">
                 <h1 className="my-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl"><span className="text-transparent bg-clip-text bg-gradient-to-r to-blue-600 from-gray-400">{course_name}</span> </h1>
 
                 <p className='my-4'>{course_description}</p>
                 <div>
-                  <button onClick={handleCourseEnroll} className="btn text-2xl btn-success w-[500px] absolute bottom-0 left-0">Enroll</button>
+                  <button onClick={handleCourseEnroll} className="btn text-3xl btn-success bg-emerald-700 text-slate-100  w-[500px] absolute bottom-0 left-0">Enroll</button>
                 </div>
             </div>
             <div>
@@ -94,7 +94,7 @@ const SingleCourse = () => {
           </div>
         </section>
         {/* teachers int the course section */}
-        <div className="py-12 text-center bg-slate-200">
+        <div className="py-12 text-center">
             <h2 className="text-5xl font-semibold text-gray-900 underline dark:text-white decoration-green-500 py-10 uppercase">course instructors</h2>
             {
                 teachers.map(teacher => 
