@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 
 // import 'react-photo-view/dist/react-photo-view.css';
@@ -7,6 +7,17 @@ const Course = ({ course, handleDelete }) => {
     const {course_id, course_name,  course_description, course_price, total_lectures, duration, image_url} = course;
     // const {update, setUpdate} = useState(course);
 
+    const [teachers, setTeachers] = useState([]);
+
+    //loading the related teachers with this course
+    useEffect(()=>{
+        fetch(`http://localhost:5002/courses/teachers/${course_id}`)
+        .then(res => res.json())
+        .then(data =>setTeachers(data.teachers))
+    },[]);
+
+
+    console.log(teachers[0]?.username)
     //truncate text
     const truncateText = (text, maxLength) => {
       if (text.length <= maxLength) {
@@ -20,17 +31,15 @@ const Course = ({ course, handleDelete }) => {
    
     return (
         // <div className='bg-slate-300 p-3 m-7 rounded-2xl'>
-    <div className="card card-side shadow-2xl bg-blue-100 m-7 hover:bg-blue-200">
-            <figure>
-        {/* <PhotoView src={image_url}> */}
-            <img className="h-[300px] w-[350px]" src={image_url}  alt="courses" />
-        {/* </PhotoView> */}
-            </figure>
-        <div className="card-body h-[300px]">
+    <div className="card rounded-lg flex flex-col card-side shadow-2xl bg-blue-100 hover:bg-blue-200">
+          <figure className='rounded-none'>
+            <img className="h-[300px] rounded-t-lg z-100" src={image_url}  alt="courses" />
+          </figure>
+        <div className="card-body h-[300px] p-4">
           <h2 className="card-title text-3xl">{course_name}</h2>
           <p>{truncateText(course_description, 100)}</p>
           <div className="flex card-action justify-between mt-5">
-            <button className="text-black btn bg-blue-300">Price : {course_price}</button>
+            <button className="text-black btn bg-blue-300 mr-4">Price : {course_price}</button>
             {/* <UpdateCourse key={course_id} course = {course}/> */}
             {/* <button onClick={()=>handleDelete(course_id)} className="w-24 btn bg-blue-300 btn-primary">Delete</button> */}
             <Link to={`/courses/${course_id}`}><div class="relative inline-flex items-center justify-start py-3 pl-4 pr-12 overflow-hidden font-semibold text-indigo-600 transition-all duration-150 ease-in-out rounded hover:pl-10 hover:pr-6 bg-gray-50 group">

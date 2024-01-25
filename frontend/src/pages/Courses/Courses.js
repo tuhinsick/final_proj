@@ -9,8 +9,8 @@ const Courses = () =>{
     const [courses, setCourses] = useState([]);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const pageSize = 10; // Adjust as needed
-    // const {courses, setCourses} = useContext(CoursesContext);c
+    const pageSize = 12; // Adjust as needed
+    // const {courses, setCourses} = useContext(CoursesContext);
     console.log(searchTerm)
 
     const handleSearch = async () => {
@@ -29,10 +29,7 @@ const Courses = () =>{
     console.log(coursesCnt)
     console.log(totalPages)
 
-
-    // fetch("http://localhost:5002/totalCourses")
-    // .then(res => res.json())
-    // .then(data =>setCoursesCnt(data))
+    //get totalpage count
     useEffect(()=>{
         const findTotalCoruses = async () => {
             try {
@@ -51,7 +48,6 @@ const Courses = () =>{
 
     
     useEffect(() => {
-        console.log('hellii')
         const fetchCourses = async () => {
             try {
                 const response = await fetch(`http://localhost:5002/courses?page=${page}&pageSize=${pageSize}`);
@@ -66,7 +62,7 @@ const Courses = () =>{
         fetchCourses();
         // setCoursesCnt(courses.length)
     }, [page]);
-    console.log(courses);
+    // console.log(courses);
 
     //delete operation
     const handleDelete = id =>{
@@ -124,9 +120,9 @@ const Courses = () =>{
     </div>
     </section>
     
-    <section className="bg-neutral-950 p-4 rounded-2xl shadow-2xl">
-        <p className='text-2xl text-white'>All Courses ( {coursesCnt} )</p>
-        <div className='grid grid-cols-2 '>
+    <section className="bg-neutral-950 p-10 rounded-2xl shadow-2xl">
+        <p className='text-2xl text-white mb-10'>All Courses ( {coursesCnt} )</p>
+        <div className='grid grid-cols-4 gap-x-6 gap-y-16' >
         {
             courses.map(course => 
                 <Course key={course.course_id} course = {course} handleDelete={handleDelete} />
@@ -134,12 +130,6 @@ const Courses = () =>{
         }
         </div>
         {/* Add pagination controls */}
-        {/* <div className="join">
-            <button onClick={() => setPage(page - 1)} className="join-item btn">1</button>
-            <button className="join-item btn btn-active">2</button>
-            <button className="join-item btn">3</button>
-            <button className="join-item btn">4</button>
-        </div> */}
         <div className='flex justify-center items-center bg-green-300 w-[28%] p-3 m-auto rounded-lg mt-20'>
             <button className='btn btn-accent mr-10' disabled={page === 1} onClick={() => setPage(page - 1)}>
                 Previous Page
