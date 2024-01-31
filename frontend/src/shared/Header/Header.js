@@ -56,7 +56,7 @@ const Header = () => {
                     <span className="badge">New</span>
                 </Link> */}
                 </li>
-                <li><Link onClick={handleLogout} to='login'>Logout</Link></li>
+                <li><Link onClick={handleLogout} to='auth/login'>Logout</Link></li>
             </ul>
             </div>
         </>
