@@ -46,11 +46,11 @@ const Header = () => {
             <ul tabIndex={0} className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52 z-10">
                 <li><Link to={`/profile/${user?.id}`}>Settings</Link></li>
                 <li>
-                  {/* {
-                    user?.role === "student" ? <StudentDashboard></StudentDashboard>
+                  {
+                    user?.role === "student" ? <Link to="/student/dashboard">s Dashboard</Link>
                     :
-                    <TeacherDashboard></TeacherDashboard>
-                  } */}
+                    <Link to="/teacher/dashboard">t Dashboard</Link>
+                  } 
                 {/* <Link to='/mycourses' className="justify-between">
                     Dashboard
                     <span className="badge">New</span>

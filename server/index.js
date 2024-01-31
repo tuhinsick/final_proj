@@ -254,7 +254,7 @@ app.post('/login', async (req, res) => {
         );
         console.log(result.rows[0])
         console.log(result.rows.length)
-        if (result.rows[0].length === 1) {
+        if (result.rows.length === 1) {
           // User found, authentication successful
           const teacherUser = result.rows[0];
           res.json({ success: true, message: 'Authentication successful', user:teacherUser });

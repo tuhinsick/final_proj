@@ -15,8 +15,9 @@ import LoginLayout from "../../layout/LoginLayout";
 import TeacherLogin from "../../pages/Login/TeacherLogin";
 import TeacherRegister from "../../pages/Login/TeacherRegister";
 import CorusePage from "../../pages/Courses/CoursePage";
-import BlogsPage from "../../pages/Blogs/BlogsPage.";
+import BlogsPage from "../../pages/Blogs/BlogsPage";
 import StudentDashboard from "../../pages/Student/StudentDashboard";
+import TeacherDashboard from "../../pages/Teacher/TeacherDashboard";
 
 
 export const routes = createBrowserRouter([
@@ -37,8 +38,12 @@ export const routes = createBrowserRouter([
                 element:<About></About>
             },
             {
-                path:'/mycourses',
+                path:'/student/dashboard',
                 element:<StudentDashboard></StudentDashboard>
+            },
+            {
+                path:'/teacher/dashboard',
+                element:<TeacherDashboard></TeacherDashboard>
             },
             {
                 path:'/addcourses',
