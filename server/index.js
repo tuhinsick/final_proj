@@ -149,76 +149,6 @@ async function run(){
     //   }
     // });
 
-    // Login API endpoint
-    // app.post('/login', async (req, res) => {
-    //   const { email, password } = req.body;
-    //   try {
-    //     // Check if the user with the provided email and password exists
-    //     const result = await pool.query(
-    //       'SELECT * FROM users WHERE email = $1 AND password = $2',
-    //       [email, password]
-    //     );
-
-    //     if (result.rows.length === 1) {
-    //       // User found, authentication successful
-    //       const user = result.rows[0];
-    //       res.json({ success: true, message: 'Authentication successful', user });
-    //     } else {
-    //       // User not found or incorrect password
-    //       res.status(401).json({ success: false, message: 'Invalid email or password' });
-    //     }
-    //   } catch (error) {
-    //     console.error('Error during login:', error);
-    //     res.status(500).json({ success: false, message: 'Internal server error' });
-    //   }
-    // });
-    
-        // Login API endpoint
-        // app.post('/login', async (req, res) => {
-        //   const { email, password } = req.body;
-        //   try {
-        //     // Check if the user with the provided email and password exists
-        //     const user = await pool.query(
-        //       'SELECT * FROM users WHERE users.email = $1 AND users.password = $2}',
-        //       [email, password]
-        //     );
-    
-        //     //get the user role
-        //     const role = user?.rows[0]?.role;
-        //     const userId = user?.rows[0].id;
-        //     console.log(role);
-    
-        //     if(role === 'student') {
-        //         const result = await pool.query(
-        //           'SELECT u.*, s.* FROM users u LEFT JOIN students s ON $1 = s.user_id', [userId]
-        //         );
-        //         if (result.rows.length === 1) {
-        //           // User found, authentication successful
-        //           const user = result.rows[0];
-        //           res.json({ success: true, message: 'Authentication successful', user });
-        //         } else {
-        //           res.status(401).json({ success: false, message: 'Invalid email or password' });
-        //         }
-        //     }else {
-        //         const result = await pool.query(
-        //           'SELECT u.*, t.* FROM users u LEFT JOIN teachers t ON $1 = t.user_id', [userId]
-        //         );
-        //         console.log(result.rows[0])
-        //         console.log(result.rows.length)
-        //         if (result.rows[0]) {
-        //           // User found, authentication successful
-        //           const user = result.rows[0];
-        //           res.json({ success: true, message: 'Authentication successful', user });
-        //         } else {
-        //           res.status(401).json({ success: false, message: 'Invalid email or password' });
-        //         }
-        //     }
-          
-        //   } catch (error) {
-        //     console.error('Error during login:', error);
-        //     res.status(500).json({ success: false, message: 'Internal server error' });
-        //   }
-        // });
 // Login API endpoint
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
@@ -382,10 +312,67 @@ app.post('/login', async (req, res) => {
           }
         });
 
+/*************************
+         *    Lectures
+         *************************/
+app.post('/add/lessons', async (req, res) => {
+  try {
+    const { title, lesson_description, teacher_id, course_id } = req.body;
 
-        
+    // Check if teacher_id and course_id exist in the database
+    const teacherResult = await pool.query('SELECT * FROM teachers WHERE teacher_id = $1', [teacher_id]);
+    const courseResult = await pool.query('SELECT * FROM courses WHERE course_id = $1', [course_id]);
+
+    if (teacherResult.rows.length === 0 || courseResult.rows.length === 0) {
+      return res.status(404).json({ error: 'Teacher or Course not found' });
+    }
+
+    // Insert the new lesson into the database
+    const insertQuery = `
+      INSERT INTO lessons (course_id, teacher_id, title, lesson_description)
+      VALUES ($1, $2, $3, $4)
+      RETURNING *;
+    `;
+
+    const result = await pool.query(insertQuery, [course_id, teacher_id, title, lesson_description]);
+
+    res.status(201).json(result.rows[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// get lessons for a course
+app.get('/lessons/:course_id', async (req, res) => {
+  const course_id = req.params.course_id;
+  try {
+    // const { teacher_id, course_id } = req.query;
+
+    // Check if teacher_id and course_id exist in the database
+    // const teacherResult = await pool.query('SELECT * FROM teachers WHERE teacher_id = $1', [teacher_id]);
+    const courseResult = await pool.query('SELECT * FROM courses WHERE course_id = $1', [course_id]);
+
+    // if (teacherResult.rows.length === 0 || courseResult.rows.length === 0) {
+    //   return res.status(404).json({ error: 'Teacher or Course not found' });
+    // }
+
+    // Fetch lessons based on teacher_id and course_id
+    const fetchQuery = `
+      SELECT * FROM lessons
+      WHERE course_id = $1;
+    `;
+
+    const result = await pool.query(fetchQuery, [course_id]);
+
+    res.status(200).json(result.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
     
-        /*************************
+/*************************
          *    for a new course
          *************************/
         // API endpoint for adding a course

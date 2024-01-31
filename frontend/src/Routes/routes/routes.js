@@ -18,6 +18,7 @@ import CorusePage from "../../pages/Courses/CoursePage";
 import BlogsPage from "../../pages/Blogs/BlogsPage";
 import StudentDashboard from "../../pages/Student/StudentDashboard";
 import TeacherDashboard from "../../pages/Teacher/TeacherDashboard";
+import CourseMain from "../../shared/CourseMain/CourseMain";
 
 
 export const routes = createBrowserRouter([
@@ -56,6 +57,11 @@ export const routes = createBrowserRouter([
             {
                 path:'courses/:id',
                 element:<SingleCourse></SingleCourse>,
+                loader:({params})=> fetch(`http://localhost:5002/courses/${params.id}`)
+            },
+            {
+                path:'courses/main/:id',
+                element:<CourseMain></CourseMain>,
                 loader:({params})=> fetch(`http://localhost:5002/courses/${params.id}`)
             },
             {
