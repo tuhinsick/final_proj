@@ -83,7 +83,7 @@ const Register = () => {
                     <input onChange={handlePassword} type="password" name='password' placeholder="password" className="input input-bordered" />
                    
                     <label className="label">
-                        <p className='label-text-alt'>Already have an account?</p><Link to='/login' className="label-text-alt link link-hover">Login</Link>
+                        <p className='label-text-alt'>Already have an account?</p><Link to='/auth/login' className="label-text-alt link link-hover">Login</Link>
                     </label>
                     </div>
                     {/* <div className="form-control">

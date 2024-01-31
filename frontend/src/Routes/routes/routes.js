@@ -19,6 +19,8 @@ import BlogsPage from "../../pages/Blogs/BlogsPage";
 import StudentDashboard from "../../pages/Student/StudentDashboard";
 import TeacherDashboard from "../../pages/Teacher/TeacherDashboard";
 import CourseMain from "../../shared/CourseMain/CourseMain";
+import LessonPage from "../../shared/CourseMain/LessonPage";
+import LessonsLayout from "../../layout/LessonsLayout";
 
 
 export const routes = createBrowserRouter([
@@ -54,6 +56,10 @@ export const routes = createBrowserRouter([
                 path:'/courses',
                 element:<CorusePage></CorusePage>
             },
+            // {
+            //     path:'/lesson/:lesson_id',
+            //     element:<LessonPage></LessonPage>
+            // },
             {
                 path:'courses/:id',
                 element:<SingleCourse></SingleCourse>,
@@ -69,38 +75,41 @@ export const routes = createBrowserRouter([
                 element:<Profile></Profile>,
                 loader:({params})=> fetch(`http://localhost:5002/user/${params.id}`)
             },
-            {
-                path:'/login',
-                element:<Login></Login>
-            },
-            {
-                path:'/teacherlogin',
-                element:<TeacherLogin></TeacherLogin>
-            },
-            {
-                path:'/register',
-                element:<Register></Register>
-            },
+            // {
+            //     path:'/teacherlogin',
+            //     element:<TeacherLogin></TeacherLogin>
+            // },
             {
                 path:'/teacher-register',
                 element:<TeacherRegister></TeacherRegister>
             }
         ]
     },
-    // {
-    //     path:'/login',
-    //     element:<LoginLayout></LoginLayout>,
-    //     children:[
-    //         {
-    //             path:'/login',
-    //             element:<Login></Login>
-    //         },
-    //         {
-    //             path:'/register',
-    //             element:<Register></Register>
-    //         }
-    //     ]
-    // },
+    {//layout for login and authentication
+        path:'/auth',
+        element:<LoginLayout></LoginLayout>,
+        children:[
+            {
+                path:'/auth/login',
+                element:<Login></Login>
+            },
+            {
+                path:'/auth/register',
+                element:<Register></Register>
+            }
+        ]
+    },
+    {
+        path: '/lessons',
+        element: <LessonsLayout></LessonsLayout>,
+        children: [
+            {
+                path: '/lessons/:lesson_id',
+                element: <LessonPage></LessonPage>,
+                loader:({params})=> fetch(`http://localhost:5002/lessons/${params.id}`)
+            }
+        ]
+    },
     {
         path:'*',
         element:<ErrorPage></ErrorPage>

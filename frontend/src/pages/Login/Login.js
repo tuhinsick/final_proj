@@ -62,11 +62,11 @@ const Login = () => {
                     <input type="password" name='password' placeholder="password" className="input input-bordered" />
                     <label className="label">
                         <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
-                        <Link to='/register' className="label-text-alt link link-hover">Don't have an account? Register</Link>
+                        <Link to='/auth/register' className="label-text-alt link link-hover">Don't have an account? Register</Link>
                     </label>
                     </div>
                     <div className="form-control mt-6">
-                    <button type='submit' className="btn btn-primary">Login</button>
+                        <button type='submit' className="btn btn-primary">Login</button>
                     </div>
                 </form>
                 </div>

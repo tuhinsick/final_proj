@@ -313,9 +313,9 @@ app.post('/login', async (req, res) => {
         });
 
 /*************************
-         *    Lectures
+         *    Lessons
          *************************/
-app.post('/add/lessons', async (req, res) => {
+app.post('/lessons', async (req, res) => {
   try {
     const { title, lesson_description, teacher_id, course_id } = req.body;
 
@@ -371,9 +371,69 @@ app.get('/lessons/:course_id', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+/*************************
+         *    Lectures
+         *************************/
+// get lectures of a particular lesson
+app.get('/lectures/:lesson_id', async (req, res) => {
+  try {
+    const lesson_id = req.params.lesson_id;
+
+    // Check if lesson_id exists in the lessons table//redundant
+    const lessonResult = await pool.query('SELECT * FROM lessons WHERE lesson_id = $1', [lesson_id]);
+
+    if (lessonResult.rows.length === 0) {
+      return res.status(404).json({ error: 'Lesson not found' });
+    }
+
+    // Fetch lectures based on lesson_id
+    const fetchQuery = `
+      SELECT * FROM lectures
+      WHERE lesson_id = $1;
+    `;
+
+    const result = await pool.query(fetchQuery, [lesson_id]);
+
+    res.status(200).json(result.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+//insert lectures
+app.post('/lectures/:lesson_id', async (req, res) => {
+  const lesson_id = req.params.lesson_id;
+  try {
+    const { video_link, pdf_note } = req.body;
+
+    // Check if lesson_id exists in the lessons table
+    const lessonResult = await pool.query('SELECT * FROM lessons WHERE lesson_id = $1', [lesson_id]);
+
+    if (lessonResult.rows.length === 0) {
+      return res.status(404).json({ error: 'Lesson not found' });
+    }
+
+    // Insert the new lecture into the lectures table
+    const insertQuery = `
+      INSERT INTO lectures (lesson_id, video_link, pdf_note)
+      VALUES ($1, $2, $3)
+      RETURNING *;
+    `;
+
+    const result = await pool.query(insertQuery, [lesson_id, video_link, pdf_note]);
+
+    res.status(201).json(result.rows[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
     
 /*************************
-         *    for a new course
+         *    Courses
          *************************/
         // API endpoint for adding a course
         app.post('/teacher/add-course', async (req, res) => {

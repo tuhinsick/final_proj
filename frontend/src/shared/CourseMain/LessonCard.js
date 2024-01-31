@@ -1,24 +1,18 @@
+import { Link } from "react-router-dom";
+
 const LessonCard = ({lesson}) => {
     const {course_id, lesson_description, title,  lesson_id, teacher_id, } = lesson;
     return ( 
-        <div>
-               this is lessons
-        </div>
+        <>
+        <Link to={`/lessons/${lesson_id}`}>
+            <div class=" ml-20 mt-8 w-[80%] p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                    <h5 class="mb-2 text-4xl font-bold tracking-tight text-gray-900 dark:text-white">{title}</h5>
+                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{lesson_description}</p>
+            </div>
+        </Link>
+        
+        </>
      );
 }
-// course_id
-// : 
-// 39
-// lesson_description
-// : 
-// "absk@gmail.com"
-// lesson_id
-// : 
-// 1
-// teacher_id
-// : 
-// 2
-// title
-// : 
-// "robin"
+
 export default LessonCard;

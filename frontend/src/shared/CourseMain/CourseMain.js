@@ -60,9 +60,8 @@ const CourseMain = () => {
           }
     }
     return ( 
-
         <>
-            <div>
+            <div className="mt-10 ml-8">
                 <h2 className="text-4xl">Lectures : {lessons.length}</h2>
             </div>
             {/* lessons  */}
