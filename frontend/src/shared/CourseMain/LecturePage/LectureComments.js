@@ -4,11 +4,14 @@ import Comment from './Comment';
 const LectureComments = ({lecture}) => {
     const [comments, setComments] = useState([])
     //get the comments related to the lecture
+    console.log(lecture)
+    // const {lecture_id, pdf_note, video_link, lesson_id} = lecture;
+
     useEffect(()=>{
         fetch(`http://localhost:5002/comments/${lecture?.lecture_id}`)
         .then(res => res.json())
         .then(data => setComments(data))
-    }, [])
+    }, [setComments, lecture?.lecture_id])
 
     console.log(comments)
     return (

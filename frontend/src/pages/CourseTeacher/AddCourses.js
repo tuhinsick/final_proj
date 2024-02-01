@@ -47,9 +47,9 @@ const AddCourses = () => {
       };
     
       return (
-        <div className='max-w-screen-xl mx-auto bg-white'>
-                <form onSubmit={handleSubmit}  className='border-3 shadow-2xl w-[1200px] mt-24  mb-32 p-8 bg-white'>
-                <h1 className='text-4xl font-semibold text-blue-600 mb-5'>ADD NEW COURSE</h1>
+        <div className='mx-auto bg-white'>
+                <form onSubmit={handleSubmit}  className='w-[1200px] mt-12 mb-32 p-8 bg-white'>
+                {/* <h1 className='text-4xl font-semibold text-blue-600 mb-5'>ADD NEW COURSE</h1> */}
                 {/* name */}
                 <div className="form-control w-full ">
                     <label className="label">
@@ -86,4 +86,3 @@ const AddCourses = () => {
  
 export default AddCourses;
 
-// Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium quidem nostrum, ipsum aliquam corporis temporibus iusto fugiat commodi illo quia reprehenderit possimus voluptates, doloribus perferendis sunt, beatae laudantium. A perspiciatis rem sit cumque illo repellat tenetur consequuntur saepe ducimus obcaecati in atque quibusdam veniam unde, ratione molestias maiores dolores necessitatibus quo debitis soluta labore pariatur possimus alias. Adipisci ullam atque quod at quo molestiae rerum? Asperiores laboriosam commodi modi voluptatum, tempora maiores repellat repudiandae nesciunt corrupti, doloribus qui quibusdam omnis dolore. Commodi minus a neque amet voluptatem magni ipsa nostrum eius aliquam numquam, quae quod, illum officia quis, accusantium praesentium! Quaerat ea neque officia delectus deleniti qui sit nulla alias illo excepturi a itaque atque doloribus temporibus dolores, autem beatae dolore exercitationem cum perspiciatis commodi saepe! Deserunt, iure quia? Perferendis quibusdam debitis quas cumque minima reiciendis corporis repellendus eum natus ducimus suscipit id incidunt quod consequuntur, exercitationem, sequi doloribus similique dolorum alias inventore illum expedita odit possimus cupiditate. Modi placeat quia qui adipisci, id, dolores velit natus, quam minima illo accusantium enim iure atque quibusdam necessitatibus iste doloremque iusto. At autem perspiciatis explicabo fugiat illum quis repellat non nihil nostrum libero, consequatur neque perferendis eius! Mollitia velit quasi veniam fugiat.

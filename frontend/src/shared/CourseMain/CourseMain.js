@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
 import LessonCard from "./LessonCard";
+import AddLessons from "../../pages/CourseTeacher/AddLessons";
 
 const CourseMain = () => {
     const course = useLoaderData();
@@ -60,20 +61,46 @@ const CourseMain = () => {
           }
     }
     return ( 
-        <>
-            <div className="mt-10 ml-8">
-                <h2 className="text-4xl">Lectures : {lessons.length}</h2>
+        <div className="p-12">
+            <div className="mt-8">
+                <h1 className="text-5xl mb-8">{course_name}</h1>
             </div>
             {/* lessons  */}
-            <section>
-                {
-                    lessons.map(lesson => 
-                        <LessonCard key= {lesson?.lesson_id} lesson = {lesson}></LessonCard>    
-                    )
-                }
-            </section>
+            {/* 
+                add tabs here  
+            */}
+            <div role="tablist" className="tabs tabs-bordered mt-10">
+            <input type="radio" name="my_tabs_1" role="tab" className="tab text-2xl px-12" aria-label="Lessons" defaultChecked/>
+            <div role="tabpanel" className="tab-content p-10">
+                <h2 className="text-4xl">Lessons : {lessons.length}</h2>
+                <section>
+                    {
+                        lessons.map(lesson => 
+                            <LessonCard key= {lesson?.lesson_id} lesson = {lesson}></LessonCard>    
+                        )
+                    }
+                </section>
+            </div>
+                   {
+                    user?.role === "teacher" ? 
+                    <>
+                        <input type="radio" name="my_tabs_1" role="tab" className="tab text-2xl px-12" aria-label="Add Lessons" />
+                        <div role="tabpanel" className="tab-content p-10">
+                            <AddLessons></AddLessons>
+                        </div>
+                    </>
+                    :
+                    <>
+                    </>
+                   } 
+            
 
-        </>
+            <input type="radio" name="my_tabs_1" role="tab" className="tab text-2xl px-12" aria-label="Outline" />
+            <div role="tabpanel" className="tab-content p-10">Outline</div>
+            </div>
+            
+
+        </div>
      );
 }
  

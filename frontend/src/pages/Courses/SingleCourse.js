@@ -5,6 +5,7 @@ import CourseInstructors from "./Course_Instructors";
 import PrivateRoute from "../../Routes/PrivateRoute/PrivateRoute";
 import CourseFAQ from "./CourseFAQ";
 import { HiAcademicCap } from "react-icons/hi";
+import ReactPlayer from "react-player";
 
 const SingleCourse = () => {
     const course = useLoaderData();
@@ -73,8 +74,8 @@ const SingleCourse = () => {
             {/* image_url? image_url :  */}
         </div>
         {/* course description */}
-        <section className="flex items-center gap-20 py-40 px-10 bg-neutral-900 rounded-xl">
-          <video className="w-[640px]"
+        <section className="flex items-center gap-20 my-28 py-24 px-10 bg-neutral-900 rounded-xl">
+          {/* <video className="w-[640px]"
           url ="https://youtu.be/KTcS3dDSV1k?si=hGGBtb58aXPReCZU"
             width="640"
             height="360"
@@ -83,7 +84,14 @@ const SingleCourse = () => {
           >
             {/* <source src="https://youtu.be/KTcS3dDSV1k?si=9Q0uV8qH32EcSFU5" type="video/mp4" />
             Your browser does not support the video tag. */}
-          </video>
+          {/* </video> */} 
+          <ReactPlayer
+                url="https://youtu.be/KTcS3dDSV1k?si=hGGBtb58aXPReCZU"
+                width="640px"
+                height="400px"
+                loop
+                controls
+            />
           <div className="w-[50%] ">
             <h2 className="text-4xl mb-10 font-semibold text-gray-900 underline dark:text-white decoration-green-500 text-slate-100">Course Description</h2>
             <p className="text-slate-300">This program is designed to take you on a transformative journey from mastering Data Structures and Algorithms (DSA) to becoming a proficient Developer or a Data Scientist. Whether you aspire to become a front-end developer, back-end developer, full-stack developer, data scientist or specialize in a specific tech-stack, this program provides the essential building blocks for your coding journey starting right from basic programming to building applications.</p>

@@ -375,6 +375,29 @@ app.get('/lessons/:course_id', async (req, res) => {
 /*************************
          *    Lectures
          *************************/
+//get a specific lecture by lecture_id
+app.get('/lecture/:lecture_id', async (req, res) => {
+  try {
+    const { lecture_id } = req.params;
+    // Fetch the lecture based on lecture_id
+    const fetchQuery = `
+      SELECT * FROM lectures
+      WHERE lecture_id = $1;
+    `;
+
+    const result = await pool.query(fetchQuery, [lecture_id]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Lecture not found' });
+    }
+
+    res.status(200).json(result.rows[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 // get lectures of a particular lesson
 app.get('/lectures/:lesson_id', async (req, res) => {
   try {
@@ -403,7 +426,7 @@ app.get('/lectures/:lesson_id', async (req, res) => {
 });
 
 //insert lectures
-app.post('/lectures/:lesson_id', async (req, res) => {
+app.post('/lecture/:lesson_id', async (req, res) => {
   const lesson_id = req.params.lesson_id;
   try {
     const { video_link, pdf_note } = req.body;
@@ -431,7 +454,75 @@ app.post('/lectures/:lesson_id', async (req, res) => {
   }
 });
 
-    
+/*************************
+         *    Lecture Comments
+         *************************/
+        // Endpoint to get comments with student and user information by lecture_id
+app.get('/comments/:lecture_id', async (req, res) => {
+  try {
+    const { lecture_id } = req.params;
+    console.log(lecture_id)
+    const parsedLectureId = parseInt(lecture_id, 10);
+    console.log(parsedLectureId)
+    // Fetch comments, student, and user information based on lecture_id
+    const fetchQuery = `
+      SELECT
+        c.comment_id,
+        c.description,
+        s.student_id,
+        u.id AS user_id,
+        u.username,
+        u.role,
+        u.user_photo
+      FROM comment_lecture c
+      JOIN students s ON c.student_id = s.student_id
+      JOIN users u ON s.user_id = u.id
+      WHERE c.lecture_id = $1;
+    `;
+
+    const result = await pool.query(fetchQuery, [lecture_id]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json([]);
+    }
+
+    res.status(200).json(result.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+//add a new comment to the comment_lecture table
+app.post('/comments', async (req, res) => {
+  try {
+    const { lecture_id, student_id, description } = req.body;
+
+    // Check if lecture_id and student_id exist in the respective tables
+    const lectureResult = await pool.query('SELECT * FROM lectures WHERE lecture_id = $1', [lecture_id]);
+    const studentResult = await pool.query('SELECT * FROM students WHERE student_id = $1', [student_id]);
+
+    if (lectureResult.rows.length === 0 || studentResult.rows.length === 0) {
+      return res.status(404).json({ error: 'Lecture or Student not found' });
+    }
+
+    // Insert the new comment into the comment_lecture table
+    const insertQuery = `
+      INSERT INTO comment_lecture (lecture_id, student_id, description)
+      VALUES ($1, $2, $3)
+      RETURNING *;
+    `;
+
+    const result = await pool.query(insertQuery, [lecture_id, student_id, description]);
+
+    res.status(201).json(result.rows[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 /*************************
          *    Courses
          *************************/

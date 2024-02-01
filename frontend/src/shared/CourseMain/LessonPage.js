@@ -47,3 +47,16 @@
 // }
  
 // export default LessonPage;
+
+import React from 'react';
+
+const LessonPage = () => {
+    return (
+        <div>
+            this is lesson page
+            load a pdf file from here
+        </div>
+    );
+};
+
+export default LessonPage;

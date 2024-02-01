@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import AddLectures from "./AddLectures";
+import { FaUsersBetweenLines } from "react-icons/fa6";
 
 const CourseTeacherCard = ({course}) => {
     const {course_id, course_name,  course_description, course_price, total_lectures, duration, image_url} = course;
@@ -27,14 +28,23 @@ const CourseTeacherCard = ({course}) => {
     };
     return ( 
         <div>
-            <div className="w-[70%] ml-32 p-8">
+            <div className="w-[70%] my-8">
             <div className="card card-side bg-base-100 shadow-xl p-6">
-            <figure className="border-2xl"><img className="w-[450px] h-[300px]" src="https://daisyui.com/images/stock/photo-1635805737707-575885ab0820.jpg" alt="Movie"/></figure>
+            <figure className="rounded-lg"><img className="w-[450px] h-[300px]" src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=3271&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Movie"/></figure>
             <div className="card-body">
                 <h2 className="text-4xl">{course_name}</h2>
                 <p>{course_description}</p>
-                <div className="card-actions justify-end">
-                <Link to={`/courses/main/${course_id}`}><button className="btn btn-primary">Teach</button></Link>
+
+                <div className="card-actions justify-between">
+                <div className="flex items-center gap-8">
+                    <FaUsersBetweenLines  className="text-4xl"/> 
+                    800
+                </div>
+                <div className="flex items-center gap-5">
+                    <button className="btn btn-primary text-xl">Delete</button>
+                    <Link to={`/courses/main/${course_id}`}><button className="btn btn-primary text-xl">Teach</button></Link>
+                </div>
+               
                 </div>
             </div>
             </div>

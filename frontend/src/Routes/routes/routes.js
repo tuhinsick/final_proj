@@ -9,7 +9,7 @@ import Courses from "../../pages/Courses/Courses";
 import Blogs from "../../pages/Blogs/Blogs";
 import SingleCourse from "../../pages/Courses/SingleCourse";
 import About from "../../pages/About/About";
-import AddCourses from "../../pages/Courses/AddCourses";
+import AddCourses from "../../pages/CourseTeacher/AddCourses";
 import Profile from "../../pages/Student/Profile";
 import LoginLayout from "../../layout/LoginLayout";
 import TeacherLogin from "../../pages/Login/TeacherLogin";
@@ -110,8 +110,8 @@ export const routes = createBrowserRouter([
         children: [
             {
                 path: '/lessons/:id',
-                element: <LecturesPage></LecturesPage>,
-                loader:({params})=> fetch(`http://localhost:5002/lectures/${params.id}`)
+                element: <LessonPage></LessonPage>,
+                // loader:({params})=> fetch(`http://localhost:5002/lecture/${params.id}`)
             },
             {
                 path: '/lessons/:id/lecture/:lecture_id',
