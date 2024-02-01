@@ -21,7 +21,8 @@ import TeacherDashboard from "../../pages/Teacher/TeacherDashboard";
 import CourseMain from "../../shared/CourseMain/CourseMain";
 import LessonPage from "../../shared/CourseMain/LessonPage";
 import LessonsLayout from "../../layout/LessonsLayout";
-import LectureVideo from "../../shared/CourseMain/LectureVideo";
+import LectureVideo from "../../shared/CourseMain/LecturePage/LectureVideo";
+import LecturesPage from "../../shared/CourseMain/LecturePage/LecturesPage";
 
 
 export const routes = createBrowserRouter([
@@ -57,10 +58,6 @@ export const routes = createBrowserRouter([
                 path:'/courses',
                 element:<CorusePage></CorusePage>
             },
-            // {
-            //     path:'/lesson/:lesson_id',
-            //     element:<LessonPage></LessonPage>
-            // },
             {
                 path:'courses/:id',
                 element:<SingleCourse></SingleCourse>,
@@ -76,10 +73,7 @@ export const routes = createBrowserRouter([
                 element:<Profile></Profile>,
                 loader:({params})=> fetch(`http://localhost:5002/user/${params.id}`)
             },
-            // {
-            //     path:'/teacherlogin',
-            //     element:<TeacherLogin></TeacherLogin>
-            // },
+           
             {
                 path:'/teacher-register',
                 element:<TeacherRegister></TeacherRegister>
@@ -102,7 +96,11 @@ export const routes = createBrowserRouter([
             {
                 path:'/auth/register',
                 element:<Register></Register>
-            }
+            },
+            // {
+            //     path:'/teacherlogin',
+            //     element:<TeacherLogin></TeacherLogin>
+            // }
         ]
     },
     {//layout for lessons page and lecture display
@@ -112,12 +110,12 @@ export const routes = createBrowserRouter([
         children: [
             {
                 path: '/lessons/:id',
-                element: <LectureVideo></LectureVideo>,
+                element: <LecturesPage></LecturesPage>,
                 loader:({params})=> fetch(`http://localhost:5002/lectures/${params.id}`)
             },
             {
                 path: '/lessons/:id/lecture/:lecture_id',
-                element: <LectureVideo></LectureVideo>,
+                element: <LecturesPage></LecturesPage>,
                 loader:({params})=> fetch(`http://localhost:5002/lecture/${params.lecture_id}`)
             }
         ]

@@ -75,13 +75,14 @@ const SingleCourse = () => {
         {/* course description */}
         <section className="flex items-center gap-20 py-40 px-10 bg-neutral-900 rounded-xl">
           <video className="w-[640px]"
+          url ="https://youtu.be/KTcS3dDSV1k?si=hGGBtb58aXPReCZU"
             width="640"
             height="360"
             controls
             onClick={togglePlay}
           >
-            <source src="your_video_url.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
+            {/* <source src="https://youtu.be/KTcS3dDSV1k?si=9Q0uV8qH32EcSFU5" type="video/mp4" />
+            Your browser does not support the video tag. */}
           </video>
           <div className="w-[50%] ">
             <h2 className="text-4xl mb-10 font-semibold text-gray-900 underline dark:text-white decoration-green-500 text-slate-100">Course Description</h2>

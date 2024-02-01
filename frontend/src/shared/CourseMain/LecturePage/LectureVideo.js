@@ -2,9 +2,9 @@ import React from 'react';
 import ReactPlayer from 'react-player';
 import { useLoaderData } from 'react-router-dom';
 
-const LectureVideo = () => {
-    const lecture = useLoaderData();
-    console.log(lecture);
+const LectureVideo = ({lecture}) => {
+    // const lecture = useLoaderData();
+    // console.log(lecture);
     const {lecture_id, pdf_note, video_link} = lecture;
     return (
         <div>
